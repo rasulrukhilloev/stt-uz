@@ -1,0 +1,54 @@
+Metadata-Version: 2.4
+Name: uzbek-stt-bot
+Version: 0.1.0
+Summary: Phase 1 Telegram bot prototype for Uzbek STT evaluation
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: numpy<2.0.0,>=1.26.0
+Requires-Dist: python-telegram-bot>=22.0
+Requires-Dist: python-dotenv>=1.0.1
+Requires-Dist: av>=14.0.0
+Requires-Dist: torch<2.4.0,>=2.2.0
+Requires-Dist: transformers<5.0.0,>=4.40.0
+
+# Uzbek STT Telegram Bot Prototype
+
+Phase 1 prototype for evaluating a single self-hosted Uzbek STT model through Telegram.
+
+## What it does
+
+- Runs a local Telegram bot with long polling
+- Accepts Telegram voice messages
+- Normalizes audio to `16 kHz` mono WAV
+- Transcribes audio with a Hugging Face Whisper checkpoint
+- Replies with transcript, model name, timing breakdown, and cold/warm status
+- Saves each run to SQLite for later comparison
+
+## Why this design
+
+This version keeps the architecture intentionally small:
+
+- one bot process
+- one model in memory
+- lazy model loading
+- SQLite instead of a heavier database
+- no webhook, no ngrok, no frontend
+
+The goal is to measure the pipeline correctly before adding more models.
+
+## Setup
+
+1. Create a virtualenv and install dependencies.
+2. Copy `.env.example` to `.env` and fill in the Telegram bot token.
+3. Run:
+
+```bash
+python -m app.main
+```
+
+## Notes
+
+- The model is downloaded and cached locally on first load.
+- The cache path is controlled by `MODEL_CACHE_DIR`.
+- `inference_time` excludes model loading time.
+- `total_time` includes the full request lifecycle.

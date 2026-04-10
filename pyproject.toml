@@ -1,0 +1,21 @@
+[project]
+name = "uzbek-stt-bot"
+version = "0.1.0"
+description = "Phase 1 Telegram bot prototype for Uzbek STT evaluation"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy>=1.26.0,<2.0.0",
+  "python-telegram-bot>=22.0",
+  "python-dotenv>=1.0.1",
+  "av>=14.0.0",
+  "torch>=2.2.0,<2.4.0",
+  "transformers>=4.40.0,<5.0.0",
+]
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["app*"]

@@ -1,0 +1,2 @@
+"""Concrete STT adapters."""
+
