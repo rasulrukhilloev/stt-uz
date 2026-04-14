@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 @dataclass(slots=True)
 class Settings:
     telegram_bot_token: str
+    huggingface_token: str | None
     stt_model_id: str
     stt_language: str | None
     stt_device: str
@@ -37,6 +38,7 @@ class Settings:
 
         return cls(
             telegram_bot_token=token,
+            huggingface_token=os.getenv("HUGGINGFACE_TOKEN", "").strip() or None,
             stt_model_id=os.getenv("STT_MODEL_ID", "small"),
             stt_language=os.getenv("STT_LANGUAGE", "uz") or None,
             stt_device=os.getenv("STT_DEVICE", "cpu"),
@@ -46,4 +48,3 @@ class Settings:
             sqlite_path=sqlite_path,
             temp_audio_dir=temp_audio_dir,
         )
-

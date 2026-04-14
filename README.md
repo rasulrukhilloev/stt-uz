@@ -6,6 +6,7 @@ Phase 1 prototype for evaluating a single self-hosted Uzbek STT model through Te
 
 - Runs a local Telegram bot with long polling
 - Accepts Telegram voice messages
+- Lets the user choose between a small set of STT models
 - Normalizes audio to `16 kHz` mono WAV
 - Transcribes audio with a Hugging Face Whisper checkpoint
 - Replies with transcript, model name, timing breakdown, and cold/warm status

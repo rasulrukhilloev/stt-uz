@@ -7,4 +7,4 @@ data/results.sqlite3
 data/model_cache/
 data/temp_audio/
 .DS_Store
-
+.idea
