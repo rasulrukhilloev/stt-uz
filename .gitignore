@@ -8,3 +8,5 @@ data/model_cache/
 data/temp_audio/
 .DS_Store
 .idea
+docs/STATUS.md
+docs/MODEL_NOTES.md
