@@ -11,7 +11,7 @@ from pydantic import BaseModel
 app = modal.App("omnivoice-tts")
 
 MODEL_ID = "k2-fsa/OmniVoice"
-CACHE_DIR = Path("/model-cache")
+CACHE_DIR = "/model-cache"
 
 model_volume = modal.Volume.from_name("omnivoice-weights", create_if_missing=True)
 
@@ -43,26 +43,20 @@ class SynthesisPayload(BaseModel):
     timeout=120,
 )
 class OmniVoiceEndpoint:
-    @modal.build()
-    def download_model(self) -> None:
-        os.environ["HF_HOME"] = str(CACHE_DIR)
-        from omnivoice import OmniVoice  # noqa: PLC0415
-
-        OmniVoice.from_pretrained(MODEL_ID)
-
     @modal.enter()
     def load_model(self) -> None:
-        import torch  # noqa: PLC0415
-        from omnivoice import OmniVoice  # noqa: PLC0415
+        import torch
+        from omnivoice import OmniVoice
 
-        os.environ["HF_HOME"] = str(CACHE_DIR)
+        os.environ["HF_HOME"] = CACHE_DIR
+        os.environ["HF_HUB_CACHE"] = CACHE_DIR
         self.model = OmniVoice.from_pretrained(
             MODEL_ID, device_map="cuda", dtype=torch.float16
         )
 
-    @modal.web_endpoint(method="POST")
+    @modal.fastapi_endpoint(method="POST")
     def synthesize(self, payload: SynthesisPayload) -> dict:
-        import numpy as np  # noqa: PLC0415
+        import numpy as np
 
         generate_kwargs: dict = {"text": payload.text}
         mode = "auto"
